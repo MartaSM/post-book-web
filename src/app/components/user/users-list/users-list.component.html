@@ -1,0 +1,7 @@
+<div class="card" style="width: 18rem;" *ngFor="let user of users">
+  <img class="card-img-top" [src]="user.avatar" [alt]="user.email">
+  <div class="card-body">
+    <h5 class="card-title">{{ user.email }}</h5>
+    <a href="#" class="btn btn-primary">Read posts</a>
+  </div>
+</div>

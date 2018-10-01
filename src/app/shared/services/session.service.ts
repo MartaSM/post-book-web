@@ -1,3 +1,4 @@
+import { BaseApiService } from './base-api.service';
 import { Observable } from 'rxjs';
 import { User } from './../models/user.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -8,20 +9,22 @@ import { catchError, map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class SessionService {
+export class SessionService extends BaseApiService {
 
   user:User = new User();
 
   private static readonly apiURI:string = 'http://localhost:3000/sessions';
-  protected static readonly defaultOptions = {
-    headers: new HttpHeaders().set('Content-Type', 'application/json'),
-    withCredentials: true
-  }
 
-  constructor(private http: HttpClient) { }
-  
+
+  constructor(private http: HttpClient) {
+
+    super(); 
+
+   }
+
+
   authenticate(user: User):Observable<User> {
-    return this.http.post<User>(SessionService.apiURI, user, SessionService.defaultOptions)
+    return this.http.post<User>(SessionService.apiURI, user, BaseApiService.defaultOptions)
     .pipe(
       map((user:User) => {
         this.doAuthenticate(user);
@@ -34,6 +37,4 @@ export class SessionService {
     this.user = user;
     localStorage.setItem('current-user', JSON.stringify(this.user));
   }
-
-
 }
